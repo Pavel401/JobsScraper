@@ -14,6 +14,7 @@ func main() {
 	// Define a route to fetch and return the list of Posting structs as JSON.
 	r.GET("/cred", handlers.GetPostingsHandler)
 	r.GET("/atlassian", handlers.AtlassianHandler)
+	r.GET("/amazon", handlers.Amazonhandler)
 
 	// Define a route for the root path.
 	r.GET("/", RootHandler)
