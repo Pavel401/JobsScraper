@@ -8,4 +8,5 @@ type CRED struct {
 	} `json:"categories"`
 	Text      string `json:"text"`
 	CreatedAt int64  `json:"createdAt"`
+	ApplyURL  string `json:"applyUrl"`
 }

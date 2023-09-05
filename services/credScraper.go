@@ -37,7 +37,9 @@ func CredScraper() ([]models.Job, error) {
 			Location:  cred.Categories.Location,
 			CreatedAt: cred.CreatedAt,
 			Company:   "CRED",
-			ApplyURL:  "https://play-lh.googleusercontent.com/r2ZbsIr5sQ7Wtl1T6eevyWj4KS7QbezF7JYB9gxQnLWbf0K4kU7qaLNcJLLUh0WG-3pK",
+			ApplyURL:  cred.ApplyURL,
+
+			ImageUrl: "https://play-lh.googleusercontent.com/r2ZbsIr5sQ7Wtl1T6eevyWj4KS7QbezF7JYB9gxQnLWbf0K4kU7qaLNcJLLUh0WG-3pK",
 		}
 	}
 
