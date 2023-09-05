@@ -15,6 +15,7 @@ func main() {
 	r.GET("/cred", handlers.GetPostingsHandler)
 	r.GET("/atlassian", handlers.AtlassianHandler)
 	r.GET("/amazon", handlers.Amazonhandler)
+	r.GET("/coursera", handlers.CourseraHandler)
 
 	// Define a route for the root path.
 	r.GET("/", RootHandler)
