@@ -8,4 +8,5 @@ type Job struct {
 	CreatedAt int64  `json:"createdAt"`
 	Company   string `json:"company"`
 	ApplyURL  string `json:"applyUrl"`
+	ImageUrl  string `json:"ImageUrl"`
 }
