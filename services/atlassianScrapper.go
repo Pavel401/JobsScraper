@@ -39,6 +39,7 @@ func AtlassianScrapper() ([]models.Job, error) {
 			CreatedAt: posting.CreatedAt,
 			Company:   "Atlassian",
 			ApplyURL:  posting.Urls.ApplyURL,
+			ImageUrl:  "https://seeklogo.com/images/A/atlassian-logo-DF2FCF6E4D-seeklogo.com.png",
 		}
 	}
 
