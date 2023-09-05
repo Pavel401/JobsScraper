@@ -8,15 +8,13 @@ import (
 )
 
 // GetPostingsHandler handles the /get-postings route.
-func GetPostingsHandler(c *gin.Context) {
+func AtlassianHandler(c *gin.Context) {
 	// Call fetchPostings to retrieve the data.
-	postings, err := services.CredScraper()
-
+	postings, err := services.AtlassianScrapper()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-
 	// Return the list of Posting structs as a JSON response.
 	c.JSON(http.StatusOK, postings)
 }

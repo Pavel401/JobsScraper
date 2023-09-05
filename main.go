@@ -12,13 +12,14 @@ func main() {
 	r := gin.Default()
 
 	// Define a route to fetch and return the list of Posting structs as JSON.
-	r.GET("/get-postings", handlers.GetPostingsHandler)
+	r.GET("/cred", handlers.GetPostingsHandler)
+	r.GET("/atlassian", handlers.AtlassianHandler)
 
 	// Define a route for the root path.
 	r.GET("/", RootHandler)
 
 	// Start the Gin server on port 8080.
-	r.Run(":8080")
+	r.Run(":3003")
 }
 
 // RootHandler handles the root route (/).
