@@ -18,6 +18,7 @@ func main() {
 	r.GET("/coursera", handlers.CourseraHandler)
 	r.GET("/freshworks", handlers.FreshWorksHandler)
 	r.GET("/gojek", handlers.Gojekhandler)
+	r.GET("/mpl", handlers.MplHandler)
 
 	// Define a route for the root path.
 	r.GET("/", RootHandler)
