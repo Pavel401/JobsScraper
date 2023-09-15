@@ -36,7 +36,7 @@ func GojekScraper() ([]models.Job, error) {
 			ID:        utility.GenerateRandomID(),
 			Company:   "GoJek",
 			CreatedAt: currentTime.Unix(),
-			ImageUrl:  "https://w7.pngwing.com/pngs/898/376/png-transparent-united-states-coursera-massive-open-online-course-education-united-states-blue-text-trademark.png",
+			ImageUrl:  "https://lever-client-logos.s3.us-west-2.amazonaws.com/ea3dc26a-36d6-4989-8596-ac871e4a9e82-1682066441676.png",
 		}
 		fmt.Print(posting)
 		postings = append(postings, posting)
