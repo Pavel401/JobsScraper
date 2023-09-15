@@ -20,6 +20,7 @@ func main() {
 	r.GET("/gojek", handlers.Gojekhandler)
 	r.GET("/mpl", handlers.MplHandler)
 
+	r.GET("/all", handlers.AllScrapersHandler)
 	// Define a route for the root path.
 	r.GET("/", RootHandler)
 
