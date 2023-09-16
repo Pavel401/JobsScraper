@@ -49,14 +49,14 @@ func FreshWorksScraper() ([]models.Job, error) {
 		log.Fatalf("Error visiting the URL: %v", err)
 	}
 
-	// Print the scraped job postings
-	for i, posting := range postings {
-		fmt.Printf("Job #%d\n", i+1)
-		fmt.Printf("Title: %s\n", posting.Title)
-		fmt.Printf("Location: %s\n", posting.Location)
-		fmt.Printf("URL: %s\n", posting.ApplyURL)
-		fmt.Println()
-	}
+	// // Print the scraped job postings
+	// for i, posting := range postings {
+	// 	fmt.Printf("Job #%d\n", i+1)
+	// 	fmt.Printf("Title: %s\n", posting.Title)
+	// 	fmt.Printf("Location: %s\n", posting.Location)
+	// 	fmt.Printf("URL: %s\n", posting.ApplyURL)
+	// 	fmt.Println()
+	// }
 
 	return postings, nil
 }

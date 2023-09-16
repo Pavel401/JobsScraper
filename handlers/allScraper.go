@@ -71,6 +71,16 @@ func AllScrapersHandler(c *gin.Context) {
 		return
 	}
 
+	// Clear existing job postings from the database.
+	clearTable := `
+		DELETE FROM jobs;
+	`
+	_, err = db.Exec(clearTable)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	// Create an empty slice to hold all the job postings.
 	var allPostings []models.Job
 
