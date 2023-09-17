@@ -1,0 +1,24 @@
+# Ignore environment files
+.env
+.env.*
+
+# Ignore compiled binary files (if any)
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Ignore log and temporary files
+logs/
+temp/
+*.log
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore build and dependency directories
+/bin/
+/vendor/
+/node_modules/
+/bower_components/
