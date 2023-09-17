@@ -23,9 +23,14 @@ func main() {
 	r.GET("/mpl", handlers.MplHandler)
 
 	r.GET("/all", handlers.AllScrapersHandler)
+	r.GET("/sync", handlers.SyncAll)
+
+	r.GET("/getallJobs", handlers.GetJobsFromDB)
 	// Define a route for the root path.
 	r.GET("/", RootHandler)
 	r.Use(CORSMiddleware())
+
+	// config.Connect()
 
 	// Start the Gin server on port 8080.
 	port := os.Getenv("PORT")
