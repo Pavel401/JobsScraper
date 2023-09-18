@@ -16,7 +16,7 @@ import (
 )
 
 func init() {
-	viper.SetConfigFile(".env") // Set the name of the configuration file
+	viper.SetConfigFile("ENV") // Set the name of the configuration file
 	viper.ReadInConfig()
 	viper.AutomaticEnv()
 
