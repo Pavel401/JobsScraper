@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"log"
 	"scrapper/models"
 	"scrapper/utility"
@@ -39,7 +38,7 @@ func CourseraScraper() ([]models.Job, error) {
 			CreatedAt: currentTime.Unix(),
 			ImageUrl:  "https://w7.pngwing.com/pngs/898/376/png-transparent-united-states-coursera-massive-open-online-course-education-united-states-blue-text-trademark.png",
 		}
-		fmt.Print(posting)
+		// fmt.Print(posting)
 		postings = append(postings, posting)
 	})
 

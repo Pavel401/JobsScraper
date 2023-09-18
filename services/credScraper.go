@@ -2,7 +2,6 @@ package services
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"scrapper/models"
 )
@@ -26,7 +25,7 @@ func CredScraper() ([]models.Job, error) {
 	if err := json.NewDecoder(resp.Body).Decode(&credData); err != nil {
 		return nil, err
 	}
-	fmt.Println("Mabud")
+	// fmt.Println("Mabud")
 
 	// Convert CRED data to Posting structs.
 	postings := make([]models.Job, len(credData))
