@@ -4,19 +4,21 @@ import (
 	"context"
 	"log"
 	"net/http"
-	"os"
+
 	"scrapper/handlers"
 
 	"cloud.google.com/go/firestore"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"google.golang.org/api/option"
+
+	// "github.com/joho/godotenv"
+	// "google.golang.org/api/option"
 	"github.com/spf13/viper"
 )
 
 func init() {
 	viper.SetConfigFile("ENV") // Set the name of the configuration file
-	viper.AutomaticEnv()        // Automatically read environment variables
+	viper.AutomaticEnv()       // Automatically read environment variables
 
 	// Optionally, set a default value for an environment variable if it's not set.
 	// This can be useful to avoid panics when trying to read unset variables.
