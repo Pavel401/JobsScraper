@@ -11,7 +11,17 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"google.golang.org/api/option"
+	"github.com/spf13/viper"
 )
+
+func init() {
+	viper.SetConfigFile("ENV") // Set the name of the configuration file
+	viper.AutomaticEnv()        // Automatically read environment variables
+
+	// Optionally, set a default value for an environment variable if it's not set.
+	// This can be useful to avoid panics when trying to read unset variables.
+	viper.SetDefault("PORT", "8080")
+}
 
 func main() {
 	// Initialize a new Gin router.
@@ -30,12 +40,11 @@ func main() {
 	r.GET("/sync", handlers.SyncAll)
 
 	r.GET("/getallJobs", handlers.GetJobsFromDB)
-	// Read environment variables.
-	if err := godotenv.Load(); err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
-	projectID := os.Getenv("FIREBASE_PROJECT_ID")
-	credentialsFile := os.Getenv("FIREBASE_CREDENTIALS_FILE")
+
+	// Read environment variables using Viper.
+	projectID := viper.GetString("FIREBASE_PROJECT_ID")
+	credentialsFile := viper.GetString("FIREBASE_CREDENTIALS_FILE")
+	port := viper.GetString("PORT")
 
 	// Initialize Firestore client using environment variables.
 	opt := option.WithCredentialsFile(credentialsFile)
@@ -56,17 +65,12 @@ func main() {
 	r.GET("/", RootHandler)
 	r.Use(CORSMiddleware())
 
-	// config.Connect()
-
-	// Start the Gin server on port 8080.
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+	// Start the Gin server on the specified port.
 	if err := r.Run(":" + port); err != nil {
 		log.Panicf("error: %s", err)
 	}
 }
+
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
