@@ -4,7 +4,6 @@ import (
 	"context"
 	"log"
 	"net/http"
-
 	"scrapper/handlers"
 
 	"cloud.google.com/go/firestore"
@@ -17,10 +16,9 @@ import (
 )
 
 func init() {
-	viper.SetConfigFile("ENV") // Set the name of the configuration file
+	viper.SetConfigFile(".env") // Set the name of the configuration file
 	viper.ReadInConfig()
-    viper.AutomaticEnv()
-    port := fmt.Sprint(viper.Get("PORT"))
+	viper.AutomaticEnv()
 
 	// Optionally, set a default value for an environment variable if it's not set.
 	// This can be useful to avoid panics when trying to read unset variables.
