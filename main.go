@@ -1,12 +1,16 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"os"
 	"scrapper/handlers"
 
+	"cloud.google.com/go/firestore"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"google.golang.org/api/option"
 )
 
 func main() {
@@ -26,6 +30,28 @@ func main() {
 	r.GET("/sync", handlers.SyncAll)
 
 	r.GET("/getallJobs", handlers.GetJobsFromDB)
+	// Read environment variables.
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
+	projectID := os.Getenv("FIREBASE_PROJECT_ID")
+	credentialsFile := os.Getenv("FIREBASE_CREDENTIALS_FILE")
+
+	// Initialize Firestore client using environment variables.
+	opt := option.WithCredentialsFile(credentialsFile)
+	firestoreClient, err := firestore.NewClient(context.Background(), projectID, opt)
+	if err != nil {
+		log.Fatalf("Error initializing Firestore client: %v", err)
+	}
+
+	r.GET("/syncFirestore", func(c *gin.Context) {
+		handlers.SyncWithFireBase(c, firestoreClient)
+	})
+
+	r.GET("/getJobsFromFirestore", func(c *gin.Context) {
+		handlers.GetJobsFromFirestore(c, firestoreClient)
+	})
+
 	// Define a route for the root path.
 	r.GET("/", RootHandler)
 	r.Use(CORSMiddleware())
