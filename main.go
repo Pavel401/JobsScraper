@@ -18,7 +18,9 @@ import (
 
 func init() {
 	viper.SetConfigFile("ENV") // Set the name of the configuration file
-	viper.AutomaticEnv()       // Automatically read environment variables
+	viper.ReadInConfig()
+    viper.AutomaticEnv()
+    port := fmt.Sprint(viper.Get("PORT"))
 
 	// Optionally, set a default value for an environment variable if it's not set.
 	// This can be useful to avoid panics when trying to read unset variables.
@@ -47,6 +49,10 @@ func main() {
 	projectID := viper.GetString("FIREBASE_PROJECT_ID")
 	credentialsFile := viper.GetString("FIREBASE_CREDENTIALS_FILE")
 	port := viper.GetString("PORT")
+
+	log.Printf("Project ID: %s", projectID)
+	log.Printf("Credentials file: %s", credentialsFile)
+	log.Printf("Port: %s", port)
 
 	// Initialize Firestore client using environment variables.
 	opt := option.WithCredentialsFile(credentialsFile)
