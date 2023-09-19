@@ -45,28 +45,45 @@ func main() {
 	port := viper.GetString("PORT")
 	universalDomain := viper.GetString("UNIVERSAL_DOMAIN")
 
-	privateKey := viper.GetString("private_key")
-	stype := viper.GetString("type")
+	// Read environment variables using Viper.
+	// dbHost := viper.GetString("DB_HOST")
+	// dbPort := viper.GetString("DB_PORT")
+	// dbName := viper.GetString("DB_NAME")
+	// dbUser := viper.GetString("DB_USER")
+	// dbPassword := viper.GetString("DB_PASSWORD")
+	// dbSSLMode := viper.GetString("DB_SSL_MODE")
+	// firebaseProjectID := viper.GetString("FIREBASE_PROJECT_ID")
+	// firebaseCredentialsFile := viper.GetString("FIREBASE_CREDENTIALS_FILE")
+	// port := viper.GetString("PORT")
+	// projectID := viper.GetString("PROJECT_ID")
+	privateKeyID := viper.GetString("PRIVATE_KEY_ID")
+	privateKey := viper.GetString("PRIVATE_KEY")
+	stype := viper.GetString("TYPE")
 
+	clientEmail := viper.GetString("CLIENT_EMAIL")
+	clientID := viper.GetString("CLIENT_ID")
+	authURI := viper.GetString("AUTH_URI")
+	tokenURI := viper.GetString("TOKEN_URI")
+	authProviderX509CertURL := viper.GetString("AUTH_PROVIDER_X509_CERT_URL")
+	clientX509CertURL := viper.GetString("CLIENT_X509_CERT_URL")
 	privateKey = strings.Replace(privateKey, "\\n", "\n", -1)
 	// log.Printf("Project ID: %s", projectID)
 	// log.Printf("Credentials file: %s", privateKey)
 	// log.Printf("Port: %s", port)
 	// log.Printf("Universal Domain: %s", universalDomain)
-	log.Printf("Type is : %s", stype)
 
 	// Generate the FirebaseConfig struct.
 	fireBaseConfig := FirebaseConfig{
 		Type:                    stype,
-		ProjectID:               viper.GetString("project_id"),
-		PrivateKeyID:            viper.GetString("private_key_id"),
+		ProjectID:               projectID,
+		PrivateKeyID:            privateKeyID,
 		PrivateKey:              privateKey,
-		ClientEmail:             viper.GetString("client_email"),
-		ClientID:                viper.GetString("client_id"),
-		AuthURI:                 viper.GetString("auth_uri"),
-		TokenURI:                viper.GetString("token_uri"),
-		AuthProviderX509CertURL: viper.GetString("auth_provider_x509_cert_url"),
-		ClientX509CertURL:       viper.GetString("client_x509_cert_url"),
+		ClientEmail:             clientEmail,
+		ClientID:                clientID,
+		AuthURI:                 authURI,
+		TokenURI:                tokenURI,
+		AuthProviderX509CertURL: authProviderX509CertURL,
+		ClientX509CertURL:       clientX509CertURL,
 		UniversalDomain:         universalDomain,
 	}
 
