@@ -57,7 +57,7 @@ func main() {
 
 	// Generate the FirebaseConfig struct.
 	fireBaseConfig := FirebaseConfig{
-		Type:                    "service_account",
+		Type:                    viper.GetString("type"),
 		ProjectID:               viper.GetString("project_id"),
 		PrivateKeyID:            viper.GetString("private_key_id"),
 		PrivateKey:              privateKey,
