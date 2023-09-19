@@ -76,7 +76,7 @@ func main() {
 		log.Fatalf("Error marshalling FirebaseConfig to JSON: %v", err)
 	}
 
-	log.Print(fireBaseConfig.PrivateKey)
+	// log.Print(fireBaseConfig.PrivateKey)
 
 	// Write the JSON data to the file.
 	filePath := "./firebase-config.json"
@@ -86,6 +86,15 @@ func main() {
 	}
 
 	fmt.Println("JSON file written:", filePath)
+
+	// Read the content of the JSON file and print it
+	fileContent, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		log.Fatalf("Error reading JSON file: %v", err)
+	}
+
+	fmt.Println("JSON file content:")
+	fmt.Println(string(fileContent))
 
 	r := gin.Default()
 
