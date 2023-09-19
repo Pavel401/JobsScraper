@@ -53,7 +53,7 @@ func main() {
 
 	// Read environment variables using Viper.
 	projectID := viper.GetString("FIREBASE_PROJECT_ID")
-	credentialsFile := viper.GetString("/app/firebase-config.json")
+	credentialsFile := viper.GetString("GOOGLE_APPLICATION_CREDENTIALS")
 	port := viper.GetString("PORT")
 
 	log.Printf("Project ID: %s", projectID)
