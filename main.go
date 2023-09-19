@@ -3,19 +3,16 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/goccy/go-json"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"scrapper/handlers"
 
 	"cloud.google.com/go/firestore"
 	"github.com/gin-gonic/gin"
-	"google.golang.org/api/option"
-
-	// "github.com/joho/godotenv"
-	// "google.golang.org/api/option"
 	"github.com/spf13/viper"
+	"google.golang.org/api/option"
 )
 
 // FirebaseConfig represents the structure of the Firebase configuration.
@@ -53,16 +50,16 @@ func main() {
 
 	// Generate the FirebaseConfig struct.
 	fireBaseConfig := FirebaseConfig{
-		Type:                    os.Getenv("type"),
-		ProjectID:               os.Getenv("project_id"),
-		PrivateKeyID:            os.Getenv("private_key_id"),
-		PrivateKey:              os.Getenv("private_key"),
-		ClientEmail:             os.Getenv("client_email"),
-		ClientID:                os.Getenv("client_id"),
-		AuthURI:                 os.Getenv("auth_uri"),
-		TokenURI:                os.Getenv("token_uri"),
-		AuthProviderX509CertURL: os.Getenv("auth_provider_x509_cert_url"),
-		ClientX509CertURL:       os.Getenv("client_x509_cert_url"),
+		Type:                    viper.GetString("type"),
+		ProjectID:               viper.GetString("project_id"),
+		PrivateKeyID:            viper.GetString("private_key_id"),
+		PrivateKey:              viper.GetString("private_key"),
+		ClientEmail:             viper.GetString("client_email"),
+		ClientID:                viper.GetString("client_id"),
+		AuthURI:                 viper.GetString("auth_uri"),
+		TokenURI:                viper.GetString("token_uri"),
+		AuthProviderX509CertURL: viper.GetString("auth_provider_x509_cert_url"),
+		ClientX509CertURL:       viper.GetString("client_x509_cert_url"),
 		UniversalDomain:         universalDomain,
 	}
 
@@ -83,10 +80,6 @@ func main() {
 
 	r := gin.Default()
 
-	viper.SetConfigFile("ENV") // Set the name of the configuration file
-	viper.ReadInConfig()
-	viper.AutomaticEnv()
-
 	// Optionally, set a default value for an environment variable if it's not set.
 	// This can be useful to avoid panics when trying to read unset variables.
 	//viper.SetDefault("PORT", "8080")
@@ -106,9 +99,9 @@ func main() {
 	r.GET("/getallJobs", handlers.GetJobsFromDB)
 
 	// Read environment variables using Viper.
-	projectID := viper.GetString("FIREBASE_PROJECT_ID")
+	projectID = viper.GetString("FIREBASE_PROJECT_ID")
 	// credentialsFile := viper.GetString("FIREBASE_CREDENTIALS_FILE")
-	port := viper.GetString("PORT")
+	port = viper.GetString("PORT")
 
 	log.Printf("Project ID: %s", projectID)
 	// log.Printf("Credentials file: %s", credentialsFile)
