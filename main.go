@@ -15,19 +15,27 @@ import (
 	"github.com/spf13/viper"
 )
 
-func init() {
+//func init() {
+//	viper.SetConfigFile("ENV") // Set the name of the configuration file
+//	viper.ReadInConfig()
+//	viper.AutomaticEnv()
+//
+//	// Optionally, set a default value for an environment variable if it's not set.
+//	// This can be useful to avoid panics when trying to read unset variables.
+//	viper.SetDefault("PORT", "8080")
+//}
+
+func main() {
+	// Initialize a new Gin router.
+	r := gin.Default()
+
 	viper.SetConfigFile("ENV") // Set the name of the configuration file
 	viper.ReadInConfig()
 	viper.AutomaticEnv()
 
 	// Optionally, set a default value for an environment variable if it's not set.
 	// This can be useful to avoid panics when trying to read unset variables.
-	viper.SetDefault("PORT", "8080")
-}
-
-func main() {
-	// Initialize a new Gin router.
-	r := gin.Default()
+	//viper.SetDefault("PORT", "8080")
 
 	// Define a route to fetch and return the list of Posting structs as JSON.
 	r.GET("/cred", handlers.GetPostingsHandler)
@@ -45,7 +53,7 @@ func main() {
 
 	// Read environment variables using Viper.
 	projectID := viper.GetString("FIREBASE_PROJECT_ID")
-	credentialsFile := viper.GetString("FIREBASE_CREDENTIALS_FILE")
+	credentialsFile := viper.GetString("/app/firebase-config.json")
 	port := viper.GetString("PORT")
 
 	log.Printf("Project ID: %s", projectID)
