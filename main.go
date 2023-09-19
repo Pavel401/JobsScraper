@@ -46,15 +46,18 @@ func main() {
 	universalDomain := viper.GetString("UNIVERSAL_DOMAIN")
 
 	privateKey := viper.GetString("private_key")
+	stype := viper.GetString("type")
+
 	privateKey = strings.Replace(privateKey, "\\n", "\n", -1)
 	log.Printf("Project ID: %s", projectID)
 	log.Printf("Credentials file: %s", privateKey)
 	log.Printf("Port: %s", port)
 	log.Printf("Universal Domain: %s", universalDomain)
+	log.Printf("Type is : %s", stype)
 
 	// Generate the FirebaseConfig struct.
 	fireBaseConfig := FirebaseConfig{
-		Type:                    viper.GetString("type"),
+		Type:                    stype,
 		ProjectID:               viper.GetString("project_id"),
 		PrivateKeyID:            viper.GetString("private_key_id"),
 		PrivateKey:              privateKey,
