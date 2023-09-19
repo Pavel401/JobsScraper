@@ -107,14 +107,14 @@ func main() {
 
 	r.GET("/getallJobs", handlers.GetJobsFromDB)
 
-	// Read environment variables using Viper.
-	projectID = viper.GetString("FIREBASE_PROJECT_ID")
-	// credentialsFile := viper.GetString("FIREBASE_CREDENTIALS_FILE")
-	port = viper.GetString("PORT")
+	// // Read environment variables using Viper.
+	// projectID = viper.GetString("FIREBASE_PROJECT_ID")
+	// // credentialsFile := viper.GetString("FIREBASE_CREDENTIALS_FILE")
+	// port = viper.GetString("PORT")
 
-	log.Printf("Project ID: %s", projectID)
-	// log.Printf("Credentials file: %s", credentialsFile)
-	log.Printf("Port: %s", port)
+	// log.Printf("Project ID: %s", projectID)
+	// // log.Printf("Credentials file: %s", credentialsFile)
+	// log.Printf("Port: %s", port)
 
 	// Initialize Firestore client using environment variables.
 	opt := option.WithCredentialsFile(filePath)
