@@ -2,8 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"scrapper/handlers"
 
 	"cloud.google.com/go/firestore"
@@ -15,18 +18,69 @@ import (
 	"github.com/spf13/viper"
 )
 
-//func init() {
-//	viper.SetConfigFile("ENV") // Set the name of the configuration file
-//	viper.ReadInConfig()
-//	viper.AutomaticEnv()
-//
-//	// Optionally, set a default value for an environment variable if it's not set.
-//	// This can be useful to avoid panics when trying to read unset variables.
-//	viper.SetDefault("PORT", "8080")
-//}
+// FirebaseConfig represents the structure of the Firebase configuration.
+type FirebaseConfig struct {
+	Type                    string `json:"type"`
+	ProjectID               string `json:"project_id"`
+	PrivateKeyID            string `json:"private_key_id"`
+	PrivateKey              string `json:"private_key"`
+	ClientEmail             string `json:"client_email"`
+	ClientID                string `json:"client_id"`
+	AuthURI                 string `json:"auth_uri"`
+	TokenURI                string `json:"token_uri"`
+	AuthProviderX509CertURL string `json:"auth_provider_x509_cert_url"`
+	ClientX509CertURL       string `json:"client_x509_cert_url"`
+	UniversalDomain         string `json:"universal_domain"` // New field
+}
 
 func main() {
 	// Initialize a new Gin router.
+
+	viper.SetConfigFile("ENV") // Set the name of the configuration file
+	viper.ReadInConfig()
+	viper.AutomaticEnv()
+
+	// Load environment variables using Viper.
+	projectID := viper.GetString("FIREBASE_PROJECT_ID")
+	credentialsFile := viper.GetString("FIREBASE_CREDENTIALS_FILE")
+	port := viper.GetString("PORT")
+	universalDomain := viper.GetString("UNIVERSAL_DOMAIN")
+
+	log.Printf("Project ID: %s", projectID)
+	log.Printf("Credentials file: %s", credentialsFile)
+	log.Printf("Port: %s", port)
+	log.Printf("Universal Domain: %s", universalDomain)
+
+	// Generate the FirebaseConfig struct.
+	fireBaseConfig := FirebaseConfig{
+		Type:                    os.Getenv("type"),
+		ProjectID:               os.Getenv("project_id"),
+		PrivateKeyID:            os.Getenv("private_key_id"),
+		PrivateKey:              os.Getenv("private_key"),
+		ClientEmail:             os.Getenv("client_email"),
+		ClientID:                os.Getenv("client_id"),
+		AuthURI:                 os.Getenv("auth_uri"),
+		TokenURI:                os.Getenv("token_uri"),
+		AuthProviderX509CertURL: os.Getenv("auth_provider_x509_cert_url"),
+		ClientX509CertURL:       os.Getenv("client_x509_cert_url"),
+		UniversalDomain:         universalDomain,
+	}
+
+	// Convert the FirebaseConfig to a JSON string.
+	fireBaseConfigJSON, err := json.MarshalIndent(fireBaseConfig, "", "  ")
+	if err != nil {
+		log.Fatalf("Error marshalling FirebaseConfig to JSON: %v", err)
+	}
+
+	// Write the JSON data to the file.
+	filePath := "./firebase-config.json"
+	err = ioutil.WriteFile(filePath, fireBaseConfigJSON, 0644)
+	if err != nil {
+		log.Fatalf("Error writing JSON file: %v", err)
+	}
+
+	fmt.Println("JSON file written:", filePath)
+
 	r := gin.Default()
 
 	viper.SetConfigFile("ENV") // Set the name of the configuration file
@@ -53,15 +107,15 @@ func main() {
 
 	// Read environment variables using Viper.
 	projectID := viper.GetString("FIREBASE_PROJECT_ID")
-	credentialsFile := viper.GetString("GOOGLE_APPLICATION_CREDENTIALS")
+	// credentialsFile := viper.GetString("FIREBASE_CREDENTIALS_FILE")
 	port := viper.GetString("PORT")
 
 	log.Printf("Project ID: %s", projectID)
-	log.Printf("Credentials file: %s", credentialsFile)
+	// log.Printf("Credentials file: %s", credentialsFile)
 	log.Printf("Port: %s", port)
 
 	// Initialize Firestore client using environment variables.
-	opt := option.WithCredentialsFile(credentialsFile)
+	opt := option.WithCredentialsFile(filePath)
 	firestoreClient, err := firestore.NewClient(context.Background(), projectID, opt)
 	if err != nil {
 		log.Fatalf("Error initializing Firestore client: %v", err)
