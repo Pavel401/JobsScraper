@@ -3,11 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/goccy/go-json"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"scrapper/handlers"
+	"strings"
+
+	"github.com/goccy/go-json"
 
 	"cloud.google.com/go/firestore"
 	"github.com/gin-gonic/gin"
@@ -33,18 +35,20 @@ type FirebaseConfig struct {
 func main() {
 	// Initialize a new Gin router.
 
-	viper.SetConfigFile("ENV") // Set the name of the configuration file
+	viper.SetConfigFile(".env") // Set the name of the configuration file
 	viper.ReadInConfig()
 	viper.AutomaticEnv()
 
 	// Load environment variables using Viper.
 	projectID := viper.GetString("FIREBASE_PROJECT_ID")
-	credentialsFile := viper.GetString("FIREBASE_CREDENTIALS_FILE")
+	// credentialsFile := viper.GetString("FIREBASE_CREDENTIALS_FILE")
 	port := viper.GetString("PORT")
 	universalDomain := viper.GetString("UNIVERSAL_DOMAIN")
 
+	privateKey := viper.GetString("private_key")
+	privateKey = strings.Replace(privateKey, "\\n", "\n", -1)
 	log.Printf("Project ID: %s", projectID)
-	log.Printf("Credentials file: %s", credentialsFile)
+	log.Printf("Credentials file: %s", privateKey)
 	log.Printf("Port: %s", port)
 	log.Printf("Universal Domain: %s", universalDomain)
 
@@ -53,7 +57,7 @@ func main() {
 		Type:                    viper.GetString("type"),
 		ProjectID:               viper.GetString("project_id"),
 		PrivateKeyID:            viper.GetString("private_key_id"),
-		PrivateKey:              viper.GetString("private_key"),
+		PrivateKey:              privateKey,
 		ClientEmail:             viper.GetString("client_email"),
 		ClientID:                viper.GetString("client_id"),
 		AuthURI:                 viper.GetString("auth_uri"),
@@ -68,6 +72,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error marshalling FirebaseConfig to JSON: %v", err)
 	}
+
+	log.Print(fireBaseConfig.PrivateKey)
 
 	// Write the JSON data to the file.
 	filePath := "./firebase-config.json"
