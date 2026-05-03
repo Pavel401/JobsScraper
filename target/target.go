@@ -3,6 +3,7 @@ package target
 import (
 	"encoding/json"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -28,7 +29,18 @@ func init() {
 }
 
 func loadCompaniesFromFile() {
-	data, err := os.ReadFile("companies.json")
+	paths := []string{"companies.json", "./companies.json", "/app/companies.json", filepath.Join(os.Getenv("PWD"), "companies.json")}
+
+	var data []byte
+	var err error
+
+	for _, p := range paths {
+		data, err = os.ReadFile(p)
+		if err == nil {
+			break
+		}
+	}
+
 	if err != nil {
 		loadCompaniesFromEnv()
 		return
@@ -108,6 +120,27 @@ func GetEnabledCompanies() []CompanyInfo {
 
 func GetEnabledLeverCompanies() []CompanyInfo {
 	companies := []CompanyInfo{}
+
+	envCompanies := os.Getenv("LEVER_COMPANIES")
+	if envCompanies != "" {
+		var parsed []CompanyInfo
+		if err := json.Unmarshal([]byte(envCompanies), &parsed); err == nil {
+			companies = append(companies, parsed...)
+		}
+	}
+
+	commaSep := os.Getenv("LEVER_COMPANIES_COMMA")
+	if commaSep != "" {
+		parts := strings.Split(commaSep, ",")
+		for _, p := range parts {
+			kv := strings.Split(strings.TrimSpace(p), ":")
+			if len(kv) == 2 {
+				companies = append(companies, CompanyInfo{
+					Company: kv[0], LeverSlug: kv[1], Enabled: true,
+				})
+			}
+		}
+	}
 
 	if len(companies) == 0 {
 		for _, c := range LeverCompanies {

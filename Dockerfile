@@ -20,6 +20,7 @@ WORKDIR /app
 RUN apk add --no-cache sqlite
 
 COPY --from=builder /app/jobscraper .
+COPY --from=builder /app/companies.json .
 
 RUN mkdir -p /data
 
