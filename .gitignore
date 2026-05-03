@@ -20,7 +20,7 @@ server.log
 logs/
 
 # Database
-jobs.db
+# jobs.db
 
 # Frontend (Next.js)
 frontend/node_modules/
