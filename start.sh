@@ -45,7 +45,7 @@ echo -e "  Log: logs/api.log"
 sleep 2
 
 echo -e "\n${BLUE}[2/2] Starting Frontend...${NC}"
-cd "$PROJECT_ROOT/frontend"
+cd "$PROJECT_ROOT/jobscraper-ui"
 npm run dev > "$PROJECT_ROOT/logs/frontend.log" 2>&1 &
 FRONTEND_PID=$!
 echo $FRONTEND_PID >> "$PID_FILE"
